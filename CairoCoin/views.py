@@ -7,11 +7,6 @@ from dateutil.relativedelta import relativedelta
 import json
 
 
-response = {
-        "status": "success",
-        "message": "Request successful",
-    }
-
 
 @api_view(['GET'])
 def index(request):
@@ -62,6 +57,11 @@ def index(request):
     credit_rating_m = creditRating.objects.filter(Agency = "Moody's").last()
     credit_rating_m_data = CreditRatingSerializer(credit_rating_m)
     
+    response = {
+        "status": "success",
+        "message": "Request successful",
+    }
+
     response["data"] = {
         'X': x_data.data,
 
@@ -151,21 +151,23 @@ def history(request):
 
         if unit == "Hour":
             # Convert seconds to hours
-            limit = time_difference.total_seconds() / 3600 +1
+            limit = time_difference.total_seconds() / 3600 + 1
         elif unit == "Day":
             # Convert seconds to days
-            limit = time_difference.total_seconds() / (3600 * 24) +1
+            limit = time_difference.total_seconds() / (3600 * 24) + 1
         elif unit == "Month":
             # Calculate the difference in months
-            limit = time_difference.total_seconds() / (3600 * 24 * 30) +1
-
-        else :
-            limit = 1
+            limit = time_difference.total_seconds() / (3600 * 24 * 30) + 1
 
         # Now 'limit' represents the time difference in the selected unit
     else:
         # Handle the case where first or last is None
         limit = 0
+
+    response = {
+        "status": "success",
+        "message": "Request successful",
+    }
 
     response["UnitLimit"] = int(limit)
 
@@ -191,6 +193,11 @@ def historyCreditRating(request):
 
     for rate in credit_rating_m :
         credit_rating_m_data.append(CreditRatingSerializer(rate).data)
+
+    response = {
+        "status": "success",
+        "message": "Request successful",
+    }
 
     response["data"] = {  
             'S&P': credit_rating_sp_data,
