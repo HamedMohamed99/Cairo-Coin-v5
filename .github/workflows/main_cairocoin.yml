@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'CairoCoin'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B376130090745F8994838BEB4CF2D43 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4309983B90D74A02BAFF83022B405EB3 }}
