@@ -142,6 +142,30 @@ def history(request):
     
     time = datetime.now(timezone.utc) - relativedelta(**{unit_mapping[unit]: int(period)})
 
+    first = model.objects.values('time').first()
+    last = model.objects.values('time').last()
+
+    # Check if first and last are not None before proceeding
+    if first and last:
+        time_difference = last['time'] - first['time']
+
+        if unit == "Hour":
+            # Convert seconds to hours
+            limit = time_difference.total_seconds() / 3600
+        elif unit == "Day":
+            # Convert seconds to days
+            limit = time_difference.total_seconds() / (3600 * 24)
+        elif unit == "Month":
+            # Calculate the difference in months
+            limit = time_difference.total_seconds() / (3600 * 24 * 30)
+
+        # Now 'limit' represents the time difference in the selected unit
+    else:
+        # Handle the case where first or last is None
+        limit = 0
+
+    response["UnitLimit"] = int(limit)
+
     dic = model.objects.filter(time__gte=time).values('time', field).order_by('-time')
 
     response["data"] = [{'Time': item['time'], 'Value': item[field]} for item in dic]
@@ -177,14 +201,11 @@ def historyCreditRating(request):
 
 @api_view(['POST'])
 def Update5Min(request):
-    print(0)
     data = json.loads(request.body)
-    print(111)
     # Helper function to save objects
     def save_instance(model, instance_data):
         obj = model.objects.create(**instance_data)
         obj.save()
-    print(1)
     # Create and save blackmarket object
     save_instance(blackmarket, data["blackMarket"])
 
@@ -206,13 +227,11 @@ def Update5Min(request):
 
     # Create and save gold_BTC object
     save_instance(gold_BTC, data["gold_BTC"])
-    print(2)
     # Create and save gold_BTC_ingot object
     save_instance(gold_BTC_ingot, data["gold_BTC_ingot"])
 
     # Create and save gold_usd object
     save_instance(gold_usd, data["gold_usd"])
-    print(3)
     # Create and save arbitrage object
     arbitrage_instance = {
         "comi": data["arbitrage"]["comi"],
@@ -225,7 +244,6 @@ def Update5Min(request):
     # Create and save bankrate object
     bankrate_instance = data["bankrate"]
     bankrate_instance["Rub"] = round(float(rub()), 4)
-    print(bankrate_instance["Rub"])
     bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", 5, data["bankrate"]["usd"]), 4)
     save_instance(bankrate, bankrate_instance)
 
@@ -239,7 +257,6 @@ def Update5Min(request):
         "Rub2egp" : round((data["blackMarketAverage"]["average_buy"] / bankrate_instance["Rub"]),4) ,
     }
     save_instance(blackmarket3, blackmarket3_instance)
-    print(6)
     # Create and save arbitrage2 object
     comi2cbkd = data["arbitrage"]["comi"] / data["arbitrage"]["cbkd"]
     arbitrage2_instance = {
@@ -256,13 +273,8 @@ def Update5Min(request):
         'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", 5, data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"]), 4),
     }
     save_instance(gold2, gold2_instance)
-    print(8)
-    response = {
-        "status": "success",
-        "message": "Request successful"
-        }
 
-    return JsonResponse(response, safe=False)
+    return JsonResponse({"status": "success","message": "Update5Min successful"}, safe=False)
 
 
 
@@ -271,7 +283,7 @@ def Update5Min(request):
 @api_view(['POST'])
 def UpdateHour(request):
     update_x()
-    return JsonResponse(response, safe=False)
+    return JsonResponse({"status": "success","message": "UpdateHour successful"}, safe=False)
 
 
 
@@ -283,7 +295,7 @@ def UpdateDay(request):
         latest_credit_date = 0
     CreditRating(latest_credit_date)
     update_history(history_day,24)
-    return JsonResponse(response, safe=False)
+    return JsonResponse({"status": "success","message": "UpdateDay successful"}, safe=False)
 
 
 

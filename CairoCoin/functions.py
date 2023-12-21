@@ -139,29 +139,14 @@ def update_history(model,time_in_hours):
 
 def Rate2Index(rate):
     value = abs(rate)
+    
+    thresholds = [0.02, 0.2, 0.4, 0.6, 0.9, 1.2, 1.5, 2, 3, 4]
 
-    if value <= .02 :
-        return 0
-    elif 0.02 < value <= 0.2:
-        return 1
-    elif 0.2 < value < 0.4 :
-        return 2
-    elif 0.4 <= value < 0.6 :
-        return 3
-    elif 0.6 <= value < 0.9 :
-        return 4
-    elif 0.9 <= value < 1.2 :
-        return 5
-    elif 1.2 <= value < 1.5 :
-        return 6
-    elif 1.5 <= value < 2 :
-        return 7
-    elif 2 <= value < 3 :
-        return 8
-    elif 3 <= value < 4 :
-        return 9
-    else:
-        return 10
+    for i, threshold in enumerate(thresholds):
+        if value < threshold:
+            return i
+
+    return 10 
 
 
 
@@ -272,14 +257,9 @@ def rub():
     print("1inside")
     try:
         response = requests.get(url)
-        print(response)
-        print(response.status_code)
-        print(response.json())
 
         if response.status_code == 200:
-            print("3inside")
             json_output = response.json()
-            print(json_output)
             return(json_output["price"])
         else:
              return(0)
