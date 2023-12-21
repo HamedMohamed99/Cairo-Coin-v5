@@ -1,0 +1,151 @@
+from rest_framework import serializers
+from .models import *
+
+class binanceSerializer(serializers.ModelSerializer):
+    Buy = serializers.FloatField(source='buy_egp')
+    Sell = serializers.FloatField(source='sell_egp')
+    class Meta:
+        model = binance
+        fields = ['Buy', 'Sell']
+
+class binance2Serializer(serializers.ModelSerializer):
+    BuyChangeRate = serializers.FloatField(source='buy_egp_ccr')
+    SellChangeRate = serializers.FloatField(source='sell_egp_ccr')
+    class Meta:
+        model = binance2
+        fields = ['BuyChangeRate', 'SellChangeRate']
+
+#----------------------------------------------------------------------------------------------------
+
+class blackmarketSerializer(serializers.ModelSerializer):
+    Buy = serializers.FloatField(source='average_buy')
+    Sell = serializers.FloatField(source='average_sell')
+    class Meta:
+        model = blackmarket2
+        fields = ['Buy', 'Sell']
+
+class blackmarket2Serializer(serializers.ModelSerializer):
+    BuyChangeRate = serializers.FloatField(source='ccr_buy')
+    SellChangeRate = serializers.FloatField(source='ccr_sell')
+    class Meta:
+        model = blackmarket2
+        fields = ['BuyChangeRate', 'SellChangeRate']
+
+#----------------------------------------------------------------------------------------------------
+
+class bankrateSerializer(serializers.ModelSerializer):
+    Price = serializers.FloatField(source='usd')
+    Rate = serializers.FloatField(source='usd_ccr')
+    class Meta:
+        model = blackmarket2
+        fields = ['Price', 'Rate']
+
+#----------------------------------------------------------------------------------------------------
+
+class blackmarket3Serializer(serializers.ModelSerializer):
+    EUR = serializers.FloatField(source='eur2egp')
+    SAR = serializers.FloatField(source='sar2egp')
+    KWD = serializers.FloatField(source='kwd2egp')
+    AED = serializers.FloatField(source='aed2egp')
+    QAR = serializers.FloatField(source='Qar2egp')
+    RUB = serializers.FloatField(source='Rub2egp')
+    class Meta:
+        model = blackmarket3
+        fields = ['EUR', 'SAR', 'KWD' , 'AED', 'QAR', 'RUB']
+
+#----------------------------------------------------------------------------------------------------
+
+class arbitrageStocks_Serializer(serializers.ModelSerializer):
+    COMI = serializers.FloatField(source='comi')
+    CBKD = serializers.FloatField(source='cbkd')
+    class Meta:
+        model = arbitrage
+        fields = ['COMI', 'CBKD']
+
+class arbitragetime_Serializer(serializers.ModelSerializer):
+    Egypt = serializers.BooleanField(source='egstock')
+    London = serializers.BooleanField(source='ukstock')
+    class Meta:
+        model = arbitrage
+        fields = ['Egypt', 'London']
+
+class arbitrage_Serializer(serializers.ModelSerializer):
+    S2S = serializers.FloatField(source='comi2cbkd')
+    Rate = serializers.FloatField(source='ccr_comi2cbkd')
+    class Meta:
+        model = arbitrage2
+        fields = ['S2S', 'Rate']
+
+#----------------------------------------------------------------------------------------------------
+
+class GoldGramBuySerializer(serializers.ModelSerializer):
+    K21 = serializers.FloatField(source='buy21')
+    K24 = serializers.FloatField(source='buy24')
+    class Meta:
+        model = gold_BTC
+        fields = ['K21', 'K24']
+
+class GoldGramSellSerializer(serializers.ModelSerializer):
+    K21 = serializers.FloatField(source='sell21')
+    K24 = serializers.FloatField(source='sell24')
+    class Meta:
+        model = gold_BTC
+        fields = ['K21', 'K24']
+
+class GoldGramRateSerializer(serializers.ModelSerializer):
+    K21 = serializers.FloatField(source='ccr_21')
+    K24 = serializers.FloatField(source='ccr_24')
+    class Meta:
+        model = gold2
+        fields = ['K21', 'K24']
+
+class GoldDollarSerializer(serializers.ModelSerializer):
+    Price = serializers.FloatField(source='gold_dollar')
+    Rate = serializers.FloatField(source='ccr_gold_dollar')
+    class Meta:
+        model = gold2
+        fields = ['Price', 'Rate']
+
+class GoldGlobalSerializer(serializers.ModelSerializer):
+    K24 = serializers.FloatField(source='global_price')
+    class Meta:
+        model = gold_usd
+        fields = ['K24']
+
+class GoldIngotBuySerializer(serializers.ModelSerializer):
+    G5 = serializers.FloatField(source='buy_5g')
+    G10 = serializers.FloatField(source='buy_10g')
+    G20 = serializers.FloatField(source='buy_20g')
+    Ounce = serializers.FloatField(source='buy_ounce')
+    G50 = serializers.FloatField(source='buy_50g')
+    G100 = serializers.FloatField(source='buy_100g')
+    HalfPound = serializers.FloatField(source='buy_halfPound')
+    Pound = serializers.FloatField(source='buy_pound')
+    class Meta:
+        model = gold_BTC_ingot
+        fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
+
+class GoldIngotSellSerializer(serializers.ModelSerializer):
+    G5 = serializers.FloatField(source='sell_5g')
+    G10 = serializers.FloatField(source='sell_10g')
+    G20 = serializers.FloatField(source='sell_20g')
+    Ounce = serializers.FloatField(source='sell_ounce')
+    G50 = serializers.FloatField(source='sell_50g')
+    G100 = serializers.FloatField(source='sell_100g')
+    HalfPound = serializers.FloatField(source='sell_halfPound')
+    Pound = serializers.FloatField(source='sell_pound')
+    class Meta:
+        model = gold_BTC_ingot
+        fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
+
+class CreditRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = creditRating
+        fields = ['Rating', 'Outlook' ,'Date']
+
+class XSerializer(serializers.ModelSerializer):
+    Rate = serializers.FloatField(source='rate')
+    Index = serializers.FloatField(source='index')
+    class Meta:
+        model = x
+        fields = ['Rate', 'Index']
