@@ -10,13 +10,15 @@ def ccr(model, column, scrape_time_rate,current):
     start = int(60/scrape_time_rate *24)
     end = start*2
 
-    day_data_list = model.objects.order_by('-time').values_list(column, flat=True)
+    data_list = model.objects.order_by('-time').values_list(column, flat=True)
     #current =  getattr((model.objects.last()), column, 0)
 
-    if len(day_data_list) > end:
-        day_data_list = day_data_list[start:end]
+    if len(data_list) > end:
+        data = data_list[start:end]
+        # Filter out elements equal to 0
+        data = [value for value in data if value != 0]
         # Calculate the average
-        average = sum(day_data_list) / len(day_data_list) if len(day_data_list) > 0 else 0
+        average = sum(data) / len(data) if len(data) > 0 else 0
 
         rate = (current - average)*100/average
 
