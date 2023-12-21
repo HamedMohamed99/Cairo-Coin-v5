@@ -225,6 +225,7 @@ def Update5Min(request):
     # Create and save bankrate object
     bankrate_instance = data["bankrate"]
     bankrate_instance["Rub"] = round(float(rub()), 4)
+    print(bankrate_instance["Rub"])
     bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", 5, data["bankrate"]["usd"]), 4)
     save_instance(bankrate, bankrate_instance)
 
@@ -238,7 +239,7 @@ def Update5Min(request):
         "Rub2egp" : round((data["blackMarketAverage"]["average_buy"] / bankrate_instance["Rub"]),4) ,
     }
     save_instance(blackmarket3, blackmarket3_instance)
-
+    print(6)
     # Create and save arbitrage2 object
     comi2cbkd = data["arbitrage"]["comi"] / data["arbitrage"]["cbkd"]
     arbitrage2_instance = {
@@ -255,7 +256,7 @@ def Update5Min(request):
         'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", 5, data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"]), 4),
     }
     save_instance(gold2, gold2_instance)
-
+    print(8)
     response = {
         "status": "success",
         "message": "Request successful"
