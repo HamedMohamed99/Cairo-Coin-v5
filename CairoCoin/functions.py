@@ -267,12 +267,15 @@ def CreditRating(last_date):
 
 def rub():
     url = "https://api.binance.com/api/v3/avgPrice?symbol=USDTRUB"
-
+    print("1inside")
     try:
         response = requests.get(url)
+        print("2inside")
 
         if response.status_code == 200:
+            print("3inside")
             json_output = response.json()
+            print(json_output)
             return(json_output["price"])
         else:
              return(0)
