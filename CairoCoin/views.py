@@ -151,13 +151,16 @@ def history(request):
 
         if unit == "Hour":
             # Convert seconds to hours
-            limit = time_difference.total_seconds() / 3600
+            limit = time_difference.total_seconds() / 3600 +1
         elif unit == "Day":
             # Convert seconds to days
-            limit = time_difference.total_seconds() / (3600 * 24)
+            limit = time_difference.total_seconds() / (3600 * 24) +1
         elif unit == "Month":
             # Calculate the difference in months
-            limit = time_difference.total_seconds() / (3600 * 24 * 30)
+            limit = time_difference.total_seconds() / (3600 * 24 * 30) +1
+
+        else :
+            limit = 1
 
         # Now 'limit' represents the time difference in the selected unit
     else:
