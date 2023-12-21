@@ -270,7 +270,9 @@ def rub():
     print("1inside")
     try:
         response = requests.get(url)
-        print("2inside")
+        print(response)
+        print(response.status_code)
+        print(response.json())
 
         if response.status_code == 200:
             print("3inside")
