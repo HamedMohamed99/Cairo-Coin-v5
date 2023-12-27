@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import binance, binance2, blackmarket, blackmarket2, bankrate, gold_BTC, gold_BTC_ingot, gold_usd, gold2, arbitrage, arbitrage2, creditRating, blackmarket3, history_hour, history_day, x
+from .models import *
 
 class binanceAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "buy_egp", "sell_egp")
@@ -7,10 +7,25 @@ class binanceAdmin(admin.ModelAdmin):
 class binance2Admin(admin.ModelAdmin):
     list_display = ("id", "time", "buy_egp_ccr", "sell_egp_ccr")
 
-class blackmarketAdmin(admin.ModelAdmin):
-    list_display = ("id", "time", "sarf_buy", "sarf_sell", "eg_buy", "eg_sell", "gpn_buy", "real_buy", "parallel_sell")
+class sarfAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
 
-class blackmarket2Admin(admin.ModelAdmin):
+class egcurrencyAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
+
+class GPNAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
+
+class realegpAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
+
+class parallelrateAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
+
+class souqtodayAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy", "sell")
+
+class blackmarketAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "average_buy", "average_sell", "ccr_buy", "ccr_sell")
 
 class bankrateAdmin(admin.ModelAdmin):
@@ -20,6 +35,12 @@ class gold_btcAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "buy21", "sell21", "buy24", "sell24")
 
 class gold_btc_ingotAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy_5g", "sell_5g", "buy_10g", "sell_10g", "buy_20g", "sell_20g", "buy_ounce", "sell_ounce", "buy_50g", "sell_50g", "buy_100g", "sell_100g", "buy_halfPound", "sell_halfPound", "buy_pound", "sell_pound")
+
+class gold_GPNAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy21", "sell21", "buy24", "sell24")
+
+class gold_GPN_ingotAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "buy_5g", "sell_5g", "buy_10g", "sell_10g", "buy_20g", "sell_20g", "buy_ounce", "sell_ounce", "buy_50g", "sell_50g", "buy_100g", "sell_100g", "buy_halfPound", "sell_halfPound", "buy_pound", "sell_pound")
 
 class gold_usdAdmin(admin.ModelAdmin):
@@ -37,7 +58,7 @@ class arbitrage2Admin(admin.ModelAdmin):
 class creditRatingAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "Agency", "Rating", "Outlook", "Date")   
 
-class blackmarket3Admin(admin.ModelAdmin):
+class blackmarket2Admin(admin.ModelAdmin):
     list_display = ("id", "time", "eur2egp", "sar2egp", "kwd2egp", "aed2egp")
 
 class history_hourAdmin(admin.ModelAdmin):
@@ -51,17 +72,24 @@ class xAdmin(admin.ModelAdmin):
 
 admin.site.register(binance, binanceAdmin)
 admin.site.register(binance2, binance2Admin)
+admin.site.register(sarf, sarfAdmin)
+admin.site.register(egcurrency, egcurrencyAdmin)
+admin.site.register(GPN, GPNAdmin)
+admin.site.register(realegp, realegpAdmin)
+admin.site.register(parallelrate, parallelrateAdmin)
+admin.site.register(souqtoday, souqtodayAdmin)
 admin.site.register(blackmarket, blackmarketAdmin)
 admin.site.register(blackmarket2, blackmarket2Admin)
 admin.site.register(bankrate, bankrateAdmin)
 admin.site.register(gold_BTC, gold_btcAdmin)
 admin.site.register(gold_BTC_ingot, gold_btc_ingotAdmin)
+admin.site.register(gold_GPN, gold_GPNAdmin)
+admin.site.register(gold_GPN_ingot, gold_GPN_ingotAdmin)
 admin.site.register(gold_usd, gold_usdAdmin)
 admin.site.register(gold2, gold2Admin)
 admin.site.register(arbitrage, arbitrageAdmin)
 admin.site.register(arbitrage2, arbitrage2Admin)
 admin.site.register(creditRating, creditRatingAdmin)
-admin.site.register(blackmarket3, blackmarket3Admin)
 admin.site.register(history_hour, history_hourAdmin)
 admin.site.register(history_day, history_dayAdmin)
 admin.site.register(x, xAdmin)

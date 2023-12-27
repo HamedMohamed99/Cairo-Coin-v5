@@ -19,14 +19,14 @@ def index(request):
     binance2_ = binance2.objects.last()
     binance2_data = binance2Serializer(binance2_)
 
-    blackmarket = blackmarket2.objects.last()
+    blackmarket = blackmarket.objects.last()
     blackmarket_data = blackmarketSerializer(blackmarket)
     blackmarket_data_2 = blackmarket2Serializer(blackmarket)
 
     bankrate_ = bankrate.objects.last()
     bankrate_data = bankrateSerializer(bankrate_)
 
-    ForeignCurrency = blackmarket3.objects.last()
+    ForeignCurrency = blackmarket2.objects.last()
     ForeignCurrency_data = blackmarket3Serializer(ForeignCurrency)
 
     arbitrageStocks = arbitrage.objects.last()
@@ -217,13 +217,13 @@ def Update5Min(request):
         obj = model.objects.create(**instance_data)
         obj.save()
     # Create and save blackmarket object
-    save_instance(blackmarket, data["blackMarket"])
+    #save_instance(blackmarket, data["blackMarket"])
 
-    # Create and save blackmarket2 object with additional ccr fields
+    # Create and save blackmarket object with additional ccr fields
     black_market_average_instance = data["blackMarketAverage"]
-    black_market_average_instance["ccr_buy"] = round(ccr(blackmarket2, "average_buy", 5, black_market_average_instance["average_buy"]), 4)
-    black_market_average_instance["ccr_sell"] = round(ccr(blackmarket2, "average_sell", 5, black_market_average_instance["average_sell"]), 4)
-    save_instance(blackmarket2, black_market_average_instance)
+    black_market_average_instance["ccr_buy"] = round(ccr(blackmarket, "average_buy", 5, black_market_average_instance["average_buy"]), 4)
+    black_market_average_instance["ccr_sell"] = round(ccr(blackmarket, "average_sell", 5, black_market_average_instance["average_sell"]), 4)
+    save_instance(blackmarket, black_market_average_instance)
 
     # Create and save binance object
     save_instance(binance, data["binance"])
@@ -257,8 +257,8 @@ def Update5Min(request):
     bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", 5, data["bankrate"]["usd"]), 4)
     save_instance(bankrate, bankrate_instance)
 
-    # Create and save blackmarket3 object
-    blackmarket3_instance = {
+    # Create and save blackmarket2 object
+    blackmarket2_instance = {
         "eur2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["eur"]),4) ,
         "sar2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["sar"]),4) ,
         "kwd2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["kwd"]),4) ,
@@ -266,7 +266,7 @@ def Update5Min(request):
         "Qar2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["Qar"]),4) ,
         "Rub2egp" : round((data["blackMarketAverage"]["average_buy"] / bankrate_instance["Rub"]),4) ,
     }
-    save_instance(blackmarket3, blackmarket3_instance)
+    save_instance(blackmarket2, blackmarket2_instance)
     # Create and save arbitrage2 object
     comi2cbkd = data["arbitrage"]["comi"] / data["arbitrage"]["cbkd"]
     arbitrage2_instance = {

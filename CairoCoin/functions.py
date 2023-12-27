@@ -112,8 +112,8 @@ def GetAverageDataForTimeBack(model, column, time_in_hours=1):
 
 def update_history(model,time_in_hours):
     new_data = {
-            'bm_buy' : GetAverageDataForTimeBack(blackmarket2,"average_buy",time_in_hours),
-            'bm_ccr_buy' : GetAverageDataForTimeBack(blackmarket2,"ccr_buy",time_in_hours),
+            'bm_buy' : GetAverageDataForTimeBack(blackmarket,"average_buy",time_in_hours),
+            'bm_ccr_buy' : GetAverageDataForTimeBack(blackmarket,"ccr_buy",time_in_hours),
             'bi_buy' : GetAverageDataForTimeBack(binance,"buy_egp",time_in_hours),
             'bi_ccr_buy' : GetAverageDataForTimeBack(binance2,"buy_egp_ccr",time_in_hours),
             'br_usd2egp' : GetAverageDataForTimeBack(bankrate,"usd",time_in_hours),

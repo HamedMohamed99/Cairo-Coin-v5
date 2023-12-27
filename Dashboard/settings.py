@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#s(7)leimqa1+lp8bn4zwa0&zwp!&locbn@og)ce!$yo_*twr4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['cairocoin.azurewebsites.net', '127.0.0.1', 'localhost']
@@ -35,6 +35,7 @@ CSRF_TRUSTED_ORIGINS = ['https://cairocoin.azurewebsites.net']
 INSTALLED_APPS = [
     'rest_framework',
     'CairoCoin',
+    'CairoCoinPlus',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,12 +79,26 @@ WSGI_APPLICATION = 'Dashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "fauyvbleuy",
+        "PASSWORD": "RJ576GDF1YJ80025$",
+        "HOST": "cairo-coin-db.postgres.database.azure.com",
+        "PORT": "5432",
+        "OPTIONS": {"sslmode":"require",
+        },
+    },
+}
+
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}'''
 
 
 # Password validation

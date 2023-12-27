@@ -1,0 +1,53 @@
+{% extends "CairoCoinPlus/layout.html" %}
+
+{% block body %}
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow pl-4 pr-4 mb-2 bg-white rounded" style="background-color: rgba(255, 255, 255, 0.5);">
+                    <div class="card-body font-weight-light">
+                        <h2 class="card-title text-center font-weight-light">Register</h2>
+
+                        {% if message %}
+                            <div class="text-center font-weight-normal" style="color: rgb(211, 52, 52);">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-group mt-2">
+                                <label for="username">Username</label>
+                                <input class="form-control" autofocus type="text" id="username" name="username" placeholder="Enter your username">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input class="form-control" type="email" id="email" name="email" placeholder="Enter your email address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmation">Confirm Password</label>
+                                <input class="form-control" type="password" id="confirmation" name="confirmation" placeholder="Confirm your password">
+                            </div>
+
+                            <div class="text-center">
+                                <button class="btn btn-dark" type="submit">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

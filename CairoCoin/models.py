@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+    
 class binance(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)
@@ -13,18 +13,44 @@ class binance2(models.Model):
     buy_egp_ccr = models.FloatField()
     sell_egp_ccr = models.FloatField()
 
-class blackmarket(models.Model):
+class sarf(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)
-    sarf_buy = models.FloatField()
-    sarf_sell = models.FloatField()
-    eg_buy = models.FloatField()
-    eg_sell = models.FloatField()
-    gpn_buy = models.FloatField()
-    real_buy = models.FloatField()
-    parallel_sell = models.FloatField()
+    buy = models.FloatField()
+    sell = models.FloatField()
 
-class blackmarket2(models.Model):
+class egcurrency(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy = models.FloatField()
+    sell = models.FloatField()
+
+class GPN(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy = models.FloatField()
+    sell = models.FloatField(default = 0)
+
+class realegp(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy = models.FloatField()
+    sell = models.FloatField(default = 0)
+
+class parallelrate(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy = models.FloatField(default = 0)
+    sell = models.FloatField()
+
+class souqtoday(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy = models.FloatField()
+    sell = models.FloatField()
+
+
+class blackmarket(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)
     average_buy = models.FloatField()
@@ -44,7 +70,7 @@ class bankrate(models.Model):
     Rub = models.FloatField()
     usd_ccr = models.FloatField()
 
-class blackmarket3(models.Model):
+class blackmarket2(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)
     eur2egp = models.FloatField()
@@ -77,6 +103,34 @@ class gold_BTC(models.Model):
     sell24 = models.FloatField()
 
 class gold_BTC_ingot(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy_5g = models.FloatField()
+    sell_5g = models.FloatField()
+    buy_10g = models.FloatField()
+    sell_10g = models.FloatField()
+    buy_20g = models.FloatField()
+    sell_20g = models.FloatField()
+    buy_ounce = models.FloatField()
+    sell_ounce = models.FloatField()
+    buy_50g = models.FloatField()
+    sell_50g = models.FloatField()
+    buy_100g = models.FloatField()
+    sell_100g = models.FloatField()
+    buy_halfPound = models.FloatField()
+    sell_halfPound = models.FloatField()
+    buy_pound = models.FloatField()
+    sell_pound = models.FloatField()
+
+class gold_GPN(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy21 = models.FloatField()
+    sell21 = models.FloatField()
+    buy24 = models.FloatField()
+    sell24 = models.FloatField()
+
+class gold_GPN_ingot(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)
     buy_5g = models.FloatField()

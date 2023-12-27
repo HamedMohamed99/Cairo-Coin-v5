@@ -21,14 +21,14 @@ class blackmarketSerializer(serializers.ModelSerializer):
     Buy = serializers.FloatField(source='average_buy')
     Sell = serializers.FloatField(source='average_sell')
     class Meta:
-        model = blackmarket2
+        model = blackmarket
         fields = ['Buy', 'Sell']
 
 class blackmarket2Serializer(serializers.ModelSerializer):
     BuyChangeRate = serializers.FloatField(source='ccr_buy')
     SellChangeRate = serializers.FloatField(source='ccr_sell')
     class Meta:
-        model = blackmarket2
+        model = blackmarket
         fields = ['BuyChangeRate', 'SellChangeRate']
 
 #----------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class bankrateSerializer(serializers.ModelSerializer):
     Price = serializers.FloatField(source='usd')
     Rate = serializers.FloatField(source='usd_ccr')
     class Meta:
-        model = blackmarket2
+        model = bankrate
         fields = ['Price', 'Rate']
 
 #----------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ class blackmarket3Serializer(serializers.ModelSerializer):
     QAR = serializers.FloatField(source='Qar2egp')
     RUB = serializers.FloatField(source='Rub2egp')
     class Meta:
-        model = blackmarket3
+        model = blackmarket2
         fields = ['EUR', 'SAR', 'KWD' , 'AED', 'QAR', 'RUB']
 
 #----------------------------------------------------------------------------------------------------
