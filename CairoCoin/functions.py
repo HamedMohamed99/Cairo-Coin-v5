@@ -1,4 +1,5 @@
 import csv
+from dateutil.relativedelta import relativedelta
 from datetime import datetime, timedelta, timezone
 from .models import *
 from django.db import IntegrityError
@@ -6,15 +7,13 @@ import requests
 from bs4 import BeautifulSoup
 
 #calc current change rate
-def ccr(model, column, scrape_time_rate,current):
-    start = int(60/scrape_time_rate *24)
-    end = start*2
+def ccr(model, column,current):
+    start_time = datetime.now(timezone.utc) - relativedelta(days = 1)
+    end_time = datetime.now(timezone.utc) - relativedelta(days = 2)
 
-    data_list = model.objects.order_by('-time').values_list(column, flat=True)
-    #current =  getattr((model.objects.last()), column, 0)
+    data = model.objects.filter(time__range=(start_time, end_time)).values_list(column, flat=True)
 
-    if len(data_list) > end:
-        data = data_list[start:end]
+    if len(data) > 0:
         # Filter out elements equal to 0
         data = [value for value in data if value != 0]
         # Calculate the average
@@ -26,8 +25,6 @@ def ccr(model, column, scrape_time_rate,current):
     
     else:
         return 0
-
-
 
 def export_to_csv(model, filename):
     queryset = model.objects.all()
@@ -106,6 +103,9 @@ def GetAverageDataForTimeBack(model, column, time_in_hours=1):
 
     # Query to retrieve all data added in the last hour
     recent_data = model.objects.filter(time__gte=time).values_list(column, flat=True)
+
+    # Filter out elements equal to 0
+    recent_data = [value for value in recent_data if value != 0]
     
     average = sum(recent_data) / len(recent_data) if len(recent_data) > 0 else 0
     return(round(average,4))
@@ -152,18 +152,9 @@ def Rate2Index(rate):
 
 def update_x():
     data = update_history(history_hour,1)
-    del data['bm_buy']
-    del data['bi_buy']
-    del data['br_usd2egp']
-    del data['br_ccr_usd2egp']
-    del data['cib_comi2cbkd']
-    del data['gold_24']
-    del data['gold_21']
-    del data['gold_dollar']
-    del data['gold_usd']
 
     if  datetime.now(timezone.utc).weekday() != 5 :
-        rate = (data['bi_ccr_buy'] * .35) + (data['bm_ccr_buy'] * .25) + (data['gold_ccr_dollar'] * .25) + (data['cib_ccr_comi2cbkd'] * .1) 
+        rate = (data['bi_ccr_buy'] * .4) + (data['bm_ccr_buy'] * .25) + (data['gold_ccr_dollar'] * .25) + (data['cib_ccr_comi2cbkd'] * .1) 
         direction = rate/abs(rate) if rate != 0 else 1
         new_data = {
                 'rate' : round(rate,5),
@@ -254,7 +245,6 @@ def CreditRating(last_date):
 
 def rub():
     url = "https://api.binance.com/api/v3/avgPrice?symbol=USDTRUB"
-    print("1inside")
     try:
         response = requests.get(url)
 

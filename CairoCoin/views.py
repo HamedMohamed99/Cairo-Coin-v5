@@ -221,8 +221,8 @@ def Update5Min(request):
 
     # Create and save blackmarket object with additional ccr fields
     black_market_average_instance = data["blackMarketAverage"]
-    black_market_average_instance["ccr_buy"] = round(ccr(blackmarket, "average_buy", 5, black_market_average_instance["average_buy"]), 4)
-    black_market_average_instance["ccr_sell"] = round(ccr(blackmarket, "average_sell", 5, black_market_average_instance["average_sell"]), 4)
+    black_market_average_instance["ccr_buy"] = round(ccr(blackmarket, "average_buy", black_market_average_instance["average_buy"]), 4)
+    black_market_average_instance["ccr_sell"] = round(ccr(blackmarket, "average_sell", black_market_average_instance["average_sell"]), 4)
     save_instance(blackmarket, black_market_average_instance)
 
     # Create and save binance object
@@ -230,8 +230,8 @@ def Update5Min(request):
 
     # Create and save binance2 object with additional ccr fields
     binance_ccr = {
-        "buy_egp_ccr": round(ccr(binance, "buy_egp", 5, data["binance"]["buy_egp"]), 4),
-        "sell_egp_ccr": round(ccr(binance, "sell_egp", 5,  data["binance"]["sell_egp"]), 4),
+        "buy_egp_ccr": round(ccr(binance, "buy_egp", data["binance"]["buy_egp"]), 4),
+        "sell_egp_ccr": round(ccr(binance, "sell_egp", data["binance"]["sell_egp"]), 4),
     }
     save_instance(binance2, binance_ccr)
 
@@ -254,7 +254,7 @@ def Update5Min(request):
     # Create and save bankrate object
     bankrate_instance = data["bankrate"]
     bankrate_instance["Rub"] = round(float(rub()), 4)
-    bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", 5, data["bankrate"]["usd"]), 4)
+    bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", data["bankrate"]["usd"]), 4)
     save_instance(bankrate, bankrate_instance)
 
     # Create and save blackmarket2 object
@@ -271,16 +271,16 @@ def Update5Min(request):
     comi2cbkd = data["arbitrage"]["comi"] / data["arbitrage"]["cbkd"]
     arbitrage2_instance = {
         "comi2cbkd": round(comi2cbkd, 4),
-        "ccr_comi2cbkd": round(ccr(arbitrage2, "comi2cbkd", 5, comi2cbkd), 4),
+        "ccr_comi2cbkd": round(ccr(arbitrage2, "comi2cbkd", comi2cbkd), 4),
     }
     save_instance(arbitrage2, arbitrage2_instance)
 
     # Create and save gold2 object
     gold2_instance = {
         'gold_dollar': round(data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"], 4),
-        'ccr_21': round(ccr(gold_BTC, "buy21", 5, data["gold_BTC"]["buy21"]), 4),
-        'ccr_24': round(ccr(gold_BTC, "buy24", 5, data["gold_BTC"]["buy24"]), 4),
-        'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", 5, data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"]), 4),
+        'ccr_21': round(ccr(gold_BTC, "buy21", data["gold_BTC"]["buy21"]), 4),
+        'ccr_24': round(ccr(gold_BTC, "buy24", data["gold_BTC"]["buy24"]), 4),
+        'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"]), 4),
     }
     save_instance(gold2, gold2_instance)
 
