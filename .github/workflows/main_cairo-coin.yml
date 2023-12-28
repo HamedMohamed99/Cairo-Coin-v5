@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'cairo-coin'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_21024A55802A4F07AEEF12193EE0D61C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FA51D6EEA31645069A4611BDFB21896E }}
