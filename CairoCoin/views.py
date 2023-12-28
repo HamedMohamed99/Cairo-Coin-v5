@@ -329,7 +329,7 @@ def UpdateDay(request):
     except AttributeError:
         latest_credit_date = 0
     CreditRating(latest_credit_date)
-    update_history(history_day,24)
+    update_history(history_day,14)
     return JsonResponse({"status": "success","message": "UpdateDay successful"}, safe=False)
 
 
