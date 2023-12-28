@@ -43,6 +43,12 @@ class gold_GPNAdmin(admin.ModelAdmin):
 class gold_GPN_ingotAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "buy_5g", "sell_5g", "buy_10g", "sell_10g", "buy_20g", "sell_20g", "buy_ounce", "sell_ounce", "buy_50g", "sell_50g", "buy_100g", "sell_100g", "buy_halfPound", "sell_halfPound", "buy_pound", "sell_pound")
 
+class gold_FinalAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy21", "sell21", "buy24", "sell24")
+
+class gold_Final_ingotAdmin(admin.ModelAdmin):
+    list_display = ("id", "time", "buy_5g", "sell_5g", "buy_10g", "sell_10g", "buy_20g", "sell_20g", "buy_ounce", "sell_ounce", "buy_50g", "sell_50g", "buy_100g", "sell_100g", "buy_halfPound", "sell_halfPound", "buy_pound", "sell_pound")
+
 class gold_usdAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "global_price")
     
@@ -85,6 +91,8 @@ admin.site.register(gold_BTC, gold_btcAdmin)
 admin.site.register(gold_BTC_ingot, gold_btc_ingotAdmin)
 admin.site.register(gold_GPN, gold_GPNAdmin)
 admin.site.register(gold_GPN_ingot, gold_GPN_ingotAdmin)
+admin.site.register(gold_Final, gold_FinalAdmin)
+admin.site.register(gold_Final_ingot, gold_Final_ingotAdmin)
 admin.site.register(gold_usd, gold_usdAdmin)
 admin.site.register(gold2, gold2Admin)
 admin.site.register(arbitrage, arbitrageAdmin)

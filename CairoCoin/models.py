@@ -150,6 +150,34 @@ class gold_GPN_ingot(models.Model):
     buy_pound = models.FloatField()
     sell_pound = models.FloatField()
 
+class gold_Final(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy21 = models.FloatField()
+    sell21 = models.FloatField()
+    buy24 = models.FloatField()
+    sell24 = models.FloatField()
+
+class gold_Final_ingot(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(default=timezone.now)
+    buy_5g = models.FloatField()
+    sell_5g = models.FloatField()
+    buy_10g = models.FloatField()
+    sell_10g = models.FloatField()
+    buy_20g = models.FloatField()
+    sell_20g = models.FloatField()
+    buy_ounce = models.FloatField()
+    sell_ounce = models.FloatField()
+    buy_50g = models.FloatField()
+    sell_50g = models.FloatField()
+    buy_100g = models.FloatField()
+    sell_100g = models.FloatField()
+    buy_halfPound = models.FloatField()
+    sell_halfPound = models.FloatField()
+    buy_pound = models.FloatField()
+    sell_pound = models.FloatField()
+
 class gold_usd(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(default=timezone.now)

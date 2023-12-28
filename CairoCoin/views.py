@@ -36,7 +36,7 @@ def index(request):
     arbitrage_ = arbitrage2.objects.last()
     arbitrage_data = arbitrage_Serializer(arbitrage_)
 
-    gold_gram_price = gold_BTC.objects.last()
+    gold_gram_price = gold_Final.objects.last()
     gold_gram_buy_data = GoldGramBuySerializer(gold_gram_price)
     gold_gram_sell_data = GoldGramSellSerializer(gold_gram_price)
 
@@ -47,7 +47,7 @@ def index(request):
     gold_global = gold_usd.objects.last()
     gold_global_data = GoldGlobalSerializer(gold_global)
 
-    gold_ingot = gold_BTC_ingot.objects.last()
+    gold_ingot = gold_Final_ingot.objects.last()
     gold_ingot_buy_data = GoldIngotBuySerializer(gold_ingot)
     gold_ingot_sell_data = GoldIngotSellSerializer(gold_ingot)
 
@@ -216,8 +216,23 @@ def Update5Min(request):
     def save_instance(model, instance_data):
         obj = model.objects.create(**instance_data)
         obj.save()
-    # Create and save blackmarket object
-    #save_instance(blackmarket, data["blackMarket"])
+    # Create and save sarf object
+    save_instance(sarf, data["blackMarket"]["sarf"])
+
+    # Create and save egcurrency object
+    save_instance(egcurrency, data["blackMarket"]["egcurrency"])
+
+    # Create and save GPN object
+    save_instance(GPN, data["blackMarket"]["GPN"])
+
+    # Create and save realegp object
+    save_instance(realegp, data["blackMarket"]["realegp"])
+
+    # Create and save parallelrate object
+    save_instance(parallelrate, data["blackMarket"]["parallelrate"])
+
+    # Create and save souqtoday object
+    save_instance(souqtoday, data["blackMarket"]["souqtoday"])
 
     # Create and save blackmarket object with additional ccr fields
     black_market_average_instance = data["blackMarketAverage"]
@@ -239,6 +254,16 @@ def Update5Min(request):
     save_instance(gold_BTC, data["gold_BTC"])
     # Create and save gold_BTC_ingot object
     save_instance(gold_BTC_ingot, data["gold_BTC_ingot"])
+
+    # Create and save gold_GPN object
+    save_instance(gold_GPN, data["gold_GPN"])
+    # Create and save gold_GPN_ingot object
+    save_instance(gold_GPN_ingot, data["gold_GPN_ingot"])
+
+    # Create and save gold_Final object
+    save_instance(gold_Final, data["gold_Final"])
+    # Create and save gold_Final_ingot object
+    save_instance(gold_Final_ingot, data["gold_Final_ingot"])
 
     # Create and save gold_usd object
     save_instance(gold_usd, data["gold_usd"])
@@ -277,10 +302,10 @@ def Update5Min(request):
 
     # Create and save gold2 object
     gold2_instance = {
-        'gold_dollar': round(data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"], 4),
-        'ccr_21': round(ccr(gold_BTC, "buy21", data["gold_BTC"]["buy21"]), 4),
-        'ccr_24': round(ccr(gold_BTC, "buy24", data["gold_BTC"]["buy24"]), 4),
-        'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", data["gold_BTC"]["buy24"] / data["gold_usd"]["global_price"]), 4),
+        'gold_dollar': round(data["gold_Final"]["buy24"] / data["gold_usd"]["global_price"], 4),
+        'ccr_21': round(ccr(gold_Final, "buy21", data["gold_Final"]["buy21"]), 4),
+        'ccr_24': round(ccr(gold_Final, "buy24", data["gold_Final"]["buy24"]), 4),
+        'ccr_gold_dollar': round(ccr(gold2, "gold_dollar", data["gold_Final"]["buy24"] / data["gold_usd"]["global_price"]), 4),
     }
     save_instance(gold2, gold2_instance)
 

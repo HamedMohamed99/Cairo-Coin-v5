@@ -82,14 +82,14 @@ class GoldGramBuySerializer(serializers.ModelSerializer):
     K21 = serializers.FloatField(source='buy21')
     K24 = serializers.FloatField(source='buy24')
     class Meta:
-        model = gold_BTC
+        model = gold_Final
         fields = ['K21', 'K24']
 
 class GoldGramSellSerializer(serializers.ModelSerializer):
     K21 = serializers.FloatField(source='sell21')
     K24 = serializers.FloatField(source='sell24')
     class Meta:
-        model = gold_BTC
+        model = gold_Final
         fields = ['K21', 'K24']
 
 class GoldGramRateSerializer(serializers.ModelSerializer):
@@ -122,7 +122,7 @@ class GoldIngotBuySerializer(serializers.ModelSerializer):
     HalfPound = serializers.FloatField(source='buy_halfPound')
     Pound = serializers.FloatField(source='buy_pound')
     class Meta:
-        model = gold_BTC_ingot
+        model = gold_Final_ingot
         fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
 
 class GoldIngotSellSerializer(serializers.ModelSerializer):
@@ -135,7 +135,7 @@ class GoldIngotSellSerializer(serializers.ModelSerializer):
     HalfPound = serializers.FloatField(source='sell_halfPound')
     Pound = serializers.FloatField(source='sell_pound')
     class Meta:
-        model = gold_BTC_ingot
+        model = gold_Final_ingot
         fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
 
 class CreditRatingSerializer(serializers.ModelSerializer):
