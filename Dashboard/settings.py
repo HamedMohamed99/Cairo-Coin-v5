@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-#s(7)leimqa1+lp8bn4zwa0&zwp!&locbn@og)ce!$yo_*twr4
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['cairocoin.azurewebsites.net', '127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['https://cairocoin.azurewebsites.net']
+ALLOWED_HOSTS = ['cairo-coin.azurewebsites.net', '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://cairo-coin.azurewebsites.net']
 
 
 # Application definition
