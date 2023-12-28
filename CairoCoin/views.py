@@ -19,9 +19,9 @@ def index(request):
     binance2_ = binance2.objects.last()
     binance2_data = binance2Serializer(binance2_)
 
-    blackmarket = blackmarket.objects.last()
-    blackmarket_data = blackmarketSerializer(blackmarket)
-    blackmarket_data_2 = blackmarket2Serializer(blackmarket)
+    blackmarket1 = blackmarket.objects.last()
+    blackmarket_data = blackmarketSerializer(blackmarket1)
+    blackmarket_data_2 = blackmarket2Serializer(blackmarket1)
 
     bankrate_ = bankrate.objects.last()
     bankrate_data = bankrateSerializer(bankrate_)
