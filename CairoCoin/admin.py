@@ -29,7 +29,7 @@ class blackmarketAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "average_buy", "average_sell", "ccr_buy", "ccr_sell")
 
 class bankrateAdmin(admin.ModelAdmin):
-    list_display = ("id", "time", "usd", "eur", "sar", "kwd", "aed", "usd_ccr")
+    list_display = ("id", "time", "usd", "eur", "sar", "kwd", "aed", "Qar", "jod", "bhd", "omr", "gbp", "Rub", "usd_ccr")
 
 class gold_btcAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "buy21", "sell21", "buy24", "sell24")
@@ -65,7 +65,7 @@ class creditRatingAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "Agency", "Rating", "Outlook", "Date")   
 
 class blackmarket2Admin(admin.ModelAdmin):
-    list_display = ("id", "time", "eur2egp", "sar2egp", "kwd2egp", "aed2egp")
+    list_display = ("id", "time", "eur2egp", "sar2egp", "kwd2egp", "aed2egp", "Qar2egp", "jod2egp", "bhd2egp", "omr2egp", "gbp2egp", "Rub2egp")
 
 class history_hourAdmin(admin.ModelAdmin):
     list_display = ("id", "time", "bm_buy", "bm_ccr_buy", "bi_buy", "bi_ccr_buy", "br_usd2egp", "br_ccr_usd2egp", "cib_comi2cbkd", "cib_ccr_comi2cbkd", "gold_24", "gold_21", "gold_dollar", "gold_ccr_dollar", "gold_usd")

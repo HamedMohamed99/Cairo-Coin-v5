@@ -67,6 +67,10 @@ class bankrate(models.Model):
     kwd = models.FloatField()
     aed = models.FloatField()
     Qar = models.FloatField()
+    jod = models.FloatField()
+    bhd = models.FloatField()
+    omr = models.FloatField()
+    gbp = models.FloatField()
     Rub = models.FloatField()
     usd_ccr = models.FloatField()
 
@@ -78,6 +82,10 @@ class blackmarket2(models.Model):
     kwd2egp = models.FloatField()
     aed2egp = models.FloatField()
     Qar2egp = models.FloatField()
+    jod2egp = models.FloatField()
+    bhd2egp = models.FloatField()
+    omr2egp = models.FloatField()
+    gbp2egp = models.FloatField()
     Rub2egp = models.FloatField()
 
 class arbitrage(models.Model):

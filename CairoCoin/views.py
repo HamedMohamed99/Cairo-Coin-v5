@@ -104,8 +104,8 @@ def index(request):
         },
 
         'CreditRating': {
-            'S&P': credit_rating_sp_data.data,
-            "Moody's": credit_rating_m_data.data
+            'SP': credit_rating_sp_data.data,
+            "Moodys": credit_rating_m_data.data
         }      
     }    
     return JsonResponse(response)
@@ -205,6 +205,111 @@ def historyCreditRating(request):
     }    
    
     return JsonResponse(response, safe=False)
+
+
+
+   
+@api_view(['GET'])
+def Calculator(request):
+
+    binancePrice = binance.objects.last()
+    blackmarketPrice = blackmarket.objects.last()
+    foreignCurrency = bankrate.objects.last()
+    
+    response = {
+        "status": "success",
+        "message": "Request successful",
+    }
+
+    response["data"] = {
+    "Binance": {
+        "USD2EGP":{
+            "Buy":binancePrice.buy_egp,
+            "Sell": binancePrice.sell_egp
+        },
+        "EUR": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.eur, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.eur, 2),
+        },
+        "GBP": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.gbp, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.gbp, 2),
+        },
+        "SAR": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.sar, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.sar, 2),
+        },
+        "KWD": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.kwd, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.kwd, 2),
+        },
+        "AED": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.aed, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.aed, 2),
+        },
+        "QAR": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.Qar, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.Qar, 2),
+        },
+        "JOD": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.jod, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.jod, 2),
+        },
+        "BHD": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.bhd, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.bhd, 2),
+        },
+        "OMR": {
+            "Buy": round(binancePrice.buy_egp / foreignCurrency.omr, 2),
+            "Sell": round(binancePrice.sell_egp / foreignCurrency.omr, 2),
+        },
+    },
+
+    "BlackMarket": {
+        "USD2EGP":{
+            "Buy":blackmarketPrice.average_buy,
+            "Sell": blackmarketPrice.average_sell
+        },
+        "EUR": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.eur, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.eur, 2),
+        },
+        "GBP": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.gbp, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.gbp, 2),
+        },
+        "SAR": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.sar, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.sar, 2),
+        },
+        "KWD": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.kwd, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.kwd, 2),
+        },
+        "AED": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.aed, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.aed, 2),
+        },
+        "QAR": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.Qar, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.Qar, 2),
+        },
+        "JOD": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.jod, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.jod, 2),
+        },
+        "BHD": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.bhd, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.bhd, 2),
+        },
+        "OMR": {
+            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.omr, 2),
+            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.omr, 2),
+        },
+    }
+}
+   
+    return JsonResponse(response, safe=False)
    
 
 
@@ -289,6 +394,10 @@ def Update5Min(request):
         "kwd2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["kwd"]),4) ,
         "aed2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["aed"]),4) ,
         "Qar2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["Qar"]),4) ,
+        "jod2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["jod"]),4) ,
+        "bhd2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["bhd"]),4) ,
+        "omr2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["omr"]),4) ,
+        "gbp2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["gbp"]),4) ,
         "Rub2egp" : round((data["blackMarketAverage"]["average_buy"] / bankrate_instance["Rub"]),4) ,
     }
     save_instance(blackmarket2, blackmarket2_instance)

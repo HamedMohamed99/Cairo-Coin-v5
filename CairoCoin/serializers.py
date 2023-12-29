@@ -48,10 +48,14 @@ class blackmarket3Serializer(serializers.ModelSerializer):
     KWD = serializers.FloatField(source='kwd2egp')
     AED = serializers.FloatField(source='aed2egp')
     QAR = serializers.FloatField(source='Qar2egp')
+    JOD = serializers.FloatField(source='jod2egp')
+    BHD = serializers.FloatField(source='bhd2egp')
+    OMR = serializers.FloatField(source='omr2egp')
+    GBN = serializers.FloatField(source='gbp2egp')
     RUB = serializers.FloatField(source='Rub2egp')
     class Meta:
         model = blackmarket2
-        fields = ['EUR', 'SAR', 'KWD' , 'AED', 'QAR', 'RUB']
+        fields = ['EUR', 'GBN', 'SAR', 'KWD' , 'AED', 'QAR', 'JOD', 'BHD', 'OMR', 'RUB']
 
 #----------------------------------------------------------------------------------------------------
 

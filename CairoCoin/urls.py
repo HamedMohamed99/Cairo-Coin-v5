@@ -7,5 +7,6 @@ urlpatterns = [
     path("Update5Min", views.Update5Min, name="Update5Min"),
     path("UpdateHour", views.UpdateHour, name="UpdateHour"),
     path("UpdateDay", views.UpdateDay, name="UpdateDay"),
-    path("HistoryCreditRating", views.historyCreditRating, name="HistoryCreditRating")
+    path("HistoryCreditRating", views.historyCreditRating, name="HistoryCreditRating"),
+    path("Calculator", views.Calculator, name="Calculator")
 ]
