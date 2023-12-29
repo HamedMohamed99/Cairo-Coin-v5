@@ -215,15 +215,46 @@ def Calculator(request):
     binancePrice = binance.objects.last()
     blackmarketPrice = blackmarket.objects.last()
     foreignCurrency = bankrate.objects.last()
-    
+
+    header = { 
+        "Language":{
+            "english":{
+                "USD": "United States Dollar",
+                "EUR": "Euro",
+                "GBP": "British Pound",
+                "SAR": "Saudi Riyal",
+                "KWD": "Kuwaiti Dinar",
+                "AED": "United Arab Emirates Dirham",
+                "QAR": "Qatari Rial",
+                "JOD": "Jordanian Dinar",
+                "BHD": "Bahraini Dinar",
+                "OMR": "Omani Rial",
+            },
+            "arabic" :{
+                "USD": "الدولار الأمريكي",
+                "EUR": "اليورو",
+                "GBP": "الجنيه البريطاني",
+                "SAR": "الريال السعودي",
+                "KWD": "الدينار الكويتي",
+                "AED": "الدرهم الإماراتي",
+                "QAR": "الريال القطري",
+                "JOD": "الدينار الأردني",
+                "BHD": "الدينار البحريني",
+                "OMR": "الريال العماني",
+            }
+        }
+    }
+
     response = {
         "status": "success",
         "message": "Request successful",
+        "Header": header,
     }
+
 
     response["data"] = {
     "Binance": {
-        "USD2EGP":{
+        "USD":{
             "Buy":binancePrice.buy_egp,
             "Sell": binancePrice.sell_egp
         },
@@ -266,7 +297,7 @@ def Calculator(request):
     },
 
     "BlackMarket": {
-        "USD2EGP":{
+        "USD":{
             "Buy":blackmarketPrice.average_buy,
             "Sell": blackmarketPrice.average_sell
         },
