@@ -248,7 +248,7 @@ def Calculator(request):
     response = {
         "status": "success",
         "message": "Request successful",
-        "Header": header,
+        "header": header,
     }
 
 
