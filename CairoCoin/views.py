@@ -7,14 +7,13 @@ from dateutil.relativedelta import relativedelta
 import json
 
 
-
 @api_view(['GET'])
 def index(request):
     x_ = x.objects.last()
     x_data = XSerializer(x_)
 
     binance1 = binance.objects.last()
-    binance_data = binanceSerializer(binance1)
+    binance_data = binanceSerializer(binance1, context={'lang': 'ar'})
 
     binance2_ = binance2.objects.last()
     binance2_data = binance2Serializer(binance2_)
@@ -63,7 +62,7 @@ def index(request):
     }
 
     response["data"] = {
-        'X': x_data.data,
+        'Indicator': x_data.data,
 
         'Binance': {
             'Trading': binance_data.data,
@@ -75,11 +74,11 @@ def index(request):
             'Rate': blackmarket_data_2.data
         },
 
-        'Bank': bankrate_data.data,
+        'OfficialExchangeRate': bankrate_data.data,
 
         'ForeignCurrencyBlackMarket': ForeignCurrency_data.data,
 
-        'Cib': {
+        'CIBArbitrage': {
             'Data': arbitrage_data.data,
             'Details': {
                 'Stocks': arbitrageStocks_data.data,
@@ -105,9 +104,9 @@ def index(request):
 
         'CreditRating': {
             'SP': credit_rating_sp_data.data,
-            "Moodys": credit_rating_m_data.data
-        }      
-    }    
+            'Moodys': credit_rating_m_data.data
+        }
+    }
     return JsonResponse(response)
 
 
@@ -200,8 +199,8 @@ def historyCreditRating(request):
     }
 
     response["data"] = {  
-            'S&P': credit_rating_sp_data,
-            "Moody's": credit_rating_m_data       
+            'SP': credit_rating_sp_data,
+            "Moodys": credit_rating_m_data       
     }    
    
     return JsonResponse(response, safe=False)
@@ -216,32 +215,14 @@ def Calculator(request):
     blackmarketPrice = blackmarket.objects.last()
     foreignCurrency = bankrate.objects.last()
 
-    header = { 
-        "Language":{
-            "english":{
-                "USD": "United States Dollar",
-                "EUR": "Euro",
-                "GBP": "British Pound",
-                "SAR": "Saudi Riyal",
-                "KWD": "Kuwaiti Dinar",
-                "AED": "United Arab Emirates Dirham",
-                "QAR": "Qatari Rial",
-                "JOD": "Jordanian Dinar",
-                "BHD": "Bahraini Dinar",
-                "OMR": "Omani Rial",
-            },
-            "arabic" :{
-                "USD": "الدولار الأمريكي",
-                "EUR": "اليورو",
-                "GBP": "الجنيه البريطاني",
-                "SAR": "الريال السعودي",
-                "KWD": "الدينار الكويتي",
-                "AED": "الدرهم الإماراتي",
-                "QAR": "الريال القطري",
-                "JOD": "الدينار الأردني",
-                "BHD": "الدينار البحريني",
-                "OMR": "الريال العماني",
-            }
+    header = {
+        "Language": {
+            "english": {"USD": "United States Dollar", "EUR": "Euro", "GBP": "British Pound", "SAR": "Saudi Riyal",
+                        "KWD": "Kuwaiti Dinar", "AED": "United Arab Emirates Dirham", "QAR": "Qatari Rial",
+                        "JOD": "Jordanian Dinar", "BHD": "Bahraini Dinar", "OMR": "Omani Rial"},
+            "arabic": {"USD": "الدولار الأمريكي", "EUR": "اليورو", "GBP": "الجنيه البريطاني", "SAR": "الريال السعودي",
+                    "KWD": "الدينار الكويتي", "AED": "الدرهم الإماراتي", "QAR": "الريال القطري", "JOD": "الدينار الأردني",
+                    "BHD": "الدينار البحريني", "OMR": "الريال العماني"}
         }
     }
 
@@ -253,92 +234,93 @@ def Calculator(request):
 
 
     response["data"] = {
-    "Binance": {
-        "USD":{
-            "Buy":binancePrice.buy_egp,
-            "Sell": binancePrice.sell_egp
+        "Binance": {
+            "USD":{
+                "Buy":binancePrice.buy_egp,
+                "Sell": binancePrice.sell_egp
+            },
+            "EUR": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.eur, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.eur, 2),
+            },
+            "GBP": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.gbp, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.gbp, 2),
+            },
+            "SAR": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.sar, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.sar, 2),
+            },
+            "KWD": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.kwd, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.kwd, 2),
+            },
+            "AED": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.aed, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.aed, 2),
+            },
+            "QAR": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.Qar, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.Qar, 2),
+            },
+            "JOD": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.jod, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.jod, 2),
+            },
+            "BHD": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.bhd, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.bhd, 2),
+            },
+            "OMR": {
+                "Buy": round(binancePrice.buy_egp / foreignCurrency.omr, 2),
+                "Sell": round(binancePrice.sell_egp / foreignCurrency.omr, 2),
+            },
         },
-        "EUR": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.eur, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.eur, 2),
-        },
-        "GBP": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.gbp, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.gbp, 2),
-        },
-        "SAR": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.sar, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.sar, 2),
-        },
-        "KWD": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.kwd, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.kwd, 2),
-        },
-        "AED": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.aed, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.aed, 2),
-        },
-        "QAR": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.Qar, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.Qar, 2),
-        },
-        "JOD": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.jod, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.jod, 2),
-        },
-        "BHD": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.bhd, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.bhd, 2),
-        },
-        "OMR": {
-            "Buy": round(binancePrice.buy_egp / foreignCurrency.omr, 2),
-            "Sell": round(binancePrice.sell_egp / foreignCurrency.omr, 2),
-        },
-    },
 
-    "BlackMarket": {
-        "USD":{
-            "Buy":blackmarketPrice.average_buy,
-            "Sell": blackmarketPrice.average_sell
-        },
-        "EUR": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.eur, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.eur, 2),
-        },
-        "GBP": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.gbp, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.gbp, 2),
-        },
-        "SAR": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.sar, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.sar, 2),
-        },
-        "KWD": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.kwd, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.kwd, 2),
-        },
-        "AED": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.aed, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.aed, 2),
-        },
-        "QAR": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.Qar, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.Qar, 2),
-        },
-        "JOD": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.jod, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.jod, 2),
-        },
-        "BHD": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.bhd, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.bhd, 2),
-        },
-        "OMR": {
-            "Buy": round(blackmarketPrice.average_buy / foreignCurrency.omr, 2),
-            "Sell": round(blackmarketPrice.average_sell / foreignCurrency.omr, 2),
-        },
+        "BlackMarket": {
+            "USD":{
+                "Buy":blackmarketPrice.average_buy,
+                "Sell": blackmarketPrice.average_sell
+            },
+            "EUR": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.eur, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.eur, 2),
+            },
+            "GBP": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.gbp, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.gbp, 2),
+            },
+            "SAR": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.sar, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.sar, 2),
+            },
+            "KWD": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.kwd, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.kwd, 2),
+            },
+            "AED": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.aed, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.aed, 2),
+            },
+            "QAR": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.Qar, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.Qar, 2),
+            },
+            "JOD": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.jod, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.jod, 2),
+            },
+            "BHD": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.bhd, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.bhd, 2),
+            },
+            "OMR": {
+                "Buy": round(blackmarketPrice.average_buy / foreignCurrency.omr, 2),
+                "Sell": round(blackmarketPrice.average_sell / foreignCurrency.omr, 2),
+            },
+        }
     }
-}
+
    
     return JsonResponse(response, safe=False)
    

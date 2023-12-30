@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 
 #calc current change rate
 def ccr(model, column,current):
-    start_time = datetime.now(timezone.utc) - relativedelta(days = 1)
-    end_time = datetime.now(timezone.utc) - relativedelta(days = 2)
+    start_time = datetime.now(timezone.utc) - relativedelta(days = 2)
+    end_time = datetime.now(timezone.utc) - relativedelta(days = 1)
 
     data = model.objects.filter(time__range=(start_time, end_time)).values_list(column, flat=True)
 
@@ -20,7 +20,7 @@ def ccr(model, column,current):
         average = sum(data) / len(data) if len(data) > 0 else 0
 
         rate = (current - average)*100/average
-
+        print(rate)
         return rate
     
     else:

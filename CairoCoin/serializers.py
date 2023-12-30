@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import *
+from django.utils.translation import gettext as _
+from django.utils.translation import activate
+
 
 class binanceSerializer(serializers.ModelSerializer):
     Buy = serializers.FloatField(source='buy_egp')
@@ -56,7 +59,7 @@ class blackmarket3Serializer(serializers.ModelSerializer):
     class Meta:
         model = blackmarket2
         fields = ['EUR', 'GBN', 'SAR', 'KWD' , 'AED', 'QAR', 'JOD', 'BHD', 'OMR', 'RUB']
-
+        
 #----------------------------------------------------------------------------------------------------
 
 class arbitrageStocks_Serializer(serializers.ModelSerializer):
@@ -73,12 +76,19 @@ class arbitragetime_Serializer(serializers.ModelSerializer):
         model = arbitrage
         fields = ['Egypt', 'London']
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        for field in ['Egypt', 'London']:
+            value = representation.get(field)
+            representation[field] = 'Open' if value else 'Close'
+        return representation
+
 class arbitrage_Serializer(serializers.ModelSerializer):
-    S2S = serializers.FloatField(source='comi2cbkd')
+    DollarPrice = serializers.FloatField(source='comi2cbkd')
     Rate = serializers.FloatField(source='ccr_comi2cbkd')
     class Meta:
         model = arbitrage2
-        fields = ['S2S', 'Rate']
+        fields = ['DollarPrice', 'Rate']
 
 #----------------------------------------------------------------------------------------------------
 
@@ -127,7 +137,7 @@ class GoldIngotBuySerializer(serializers.ModelSerializer):
     Pound = serializers.FloatField(source='buy_pound')
     class Meta:
         model = gold_Final_ingot
-        fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
+        fields = ['G5', 'G10', 'G20', 'Ounce', 'G50', 'G100', 'HalfPound', 'Pound']
 
 class GoldIngotSellSerializer(serializers.ModelSerializer):
     G5 = serializers.FloatField(source='sell_5g')
@@ -140,16 +150,16 @@ class GoldIngotSellSerializer(serializers.ModelSerializer):
     Pound = serializers.FloatField(source='sell_pound')
     class Meta:
         model = gold_Final_ingot
-        fields = ['G5', 'G10', 'G20' ,'Ounce', 'G50', 'G100', 'HalfPound' ,'Pound']
+        fields = ['G5', 'G10', 'G20', 'Ounce', 'G50', 'G100', 'HalfPound', 'Pound']
 
 class CreditRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = creditRating
-        fields = ['Rating', 'Outlook' ,'Date']
+        fields = ['Rating', 'Outlook', 'Date']
 
 class XSerializer(serializers.ModelSerializer):
     Rate = serializers.FloatField(source='rate')
-    Index = serializers.FloatField(source='index')
+    Value = serializers.FloatField(source='index')
     class Meta:
         model = x
-        fields = ['Rate', 'Index']
+        fields = ['Rate', 'Value']
