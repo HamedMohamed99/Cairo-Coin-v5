@@ -45,6 +45,54 @@ class bankrateSerializer(serializers.ModelSerializer):
 
 #----------------------------------------------------------------------------------------------------
 
+class bankRateForeignCurrencySerializer(serializers.ModelSerializer):
+    EUR = serializers.SerializerMethodField()
+    GBN = serializers.SerializerMethodField()
+    SAR = serializers.SerializerMethodField()
+    KWD = serializers.SerializerMethodField()
+    AED = serializers.SerializerMethodField()
+    QAR = serializers.SerializerMethodField()
+    JOD = serializers.SerializerMethodField()
+    BHD = serializers.SerializerMethodField()
+    OMR = serializers.SerializerMethodField()
+
+    class Meta:
+        model = bankrate
+        fields = ['EUR', 'GBN', 'SAR', 'KWD', 'AED', 'QAR', 'JOD', 'BHD', 'OMR']
+
+    def get_EUR(self, obj):
+        return round(self.get_usd_value() / obj.eur, 2)
+
+    def get_GBN(self, obj):
+        return round(self.get_usd_value() / obj.gbp, 2)
+
+    def get_SAR(self, obj):
+        return round(self.get_usd_value() / obj.sar, 2)
+
+    def get_KWD(self, obj):
+        return round(self.get_usd_value() / obj.kwd, 2)
+
+    def get_AED(self, obj):
+        return round(self.get_usd_value() / obj.aed, 2)
+
+    def get_QAR(self, obj):
+        return round(self.get_usd_value() / obj.Qar, 2)
+
+    def get_JOD(self, obj):
+        return round(self.get_usd_value() / obj.jod, 2)
+
+    def get_BHD(self, obj):
+        return round(self.get_usd_value() / obj.bhd, 2)
+
+    def get_OMR(self, obj):
+        return round(self.get_usd_value() / obj.omr, 2)
+
+
+    def get_usd_value(self):
+        return bankrate.objects.values_list("usd", flat=True).last()
+
+#----------------------------------------------------------------------------------------------------
+
 class blackmarket3Serializer(serializers.ModelSerializer):
     EUR = serializers.FloatField(source='eur2egp')
     SAR = serializers.FloatField(source='sar2egp')
@@ -55,10 +103,9 @@ class blackmarket3Serializer(serializers.ModelSerializer):
     BHD = serializers.FloatField(source='bhd2egp')
     OMR = serializers.FloatField(source='omr2egp')
     GBN = serializers.FloatField(source='gbp2egp')
-    RUB = serializers.FloatField(source='Rub2egp')
     class Meta:
         model = blackmarket2
-        fields = ['EUR', 'GBN', 'SAR', 'KWD' , 'AED', 'QAR', 'JOD', 'BHD', 'OMR', 'RUB']
+        fields = ['EUR', 'GBN', 'SAR', 'KWD' , 'AED', 'QAR', 'JOD', 'BHD', 'OMR']
         
 #----------------------------------------------------------------------------------------------------
 

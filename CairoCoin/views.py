@@ -25,6 +25,9 @@ def index(request):
     bankrate_ = bankrate.objects.last()
     bankrate_data = bankrateSerializer(bankrate_)
 
+    bankRateForeignCurrency = bankrate.objects.last()
+    bankRateForeignCurrency_data = bankRateForeignCurrencySerializer(bankRateForeignCurrency)
+
     ForeignCurrency = blackmarket2.objects.last()
     ForeignCurrency_data = blackmarket3Serializer(ForeignCurrency)
 
@@ -76,7 +79,12 @@ def index(request):
 
         'OfficialExchangeRate': bankrate_data.data,
 
-        'ForeignCurrencyBlackMarket': ForeignCurrency_data.data,
+        'ForeignCurrency':{
+            'OfficialExchangeRate': bankRateForeignCurrency_data.data,
+            'BlackMarket': ForeignCurrency_data.data,
+        },
+
+        'EgyptPoundToRussianRuble' : round((1 / blackmarket2.objects.values_list("Rub2egp", flat=True).last()), 3) ,
 
         'CIBArbitrage': {
             'Data': arbitrage_data.data,
@@ -398,18 +406,19 @@ def Update5Min(request):
     bankrate_instance["usd_ccr"] = round(ccr(bankrate, "usd", data["bankrate"]["usd"]), 4)
     save_instance(bankrate, bankrate_instance)
 
+    BM_Price = (data["blackMarketAverage"]["average_buy"] + data["blackMarketAverage"]["average_sell"]) / 2
     # Create and save blackmarket2 object
     blackmarket2_instance = {
-        "eur2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["eur"]),4) ,
-        "sar2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["sar"]),4) ,
-        "kwd2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["kwd"]),4) ,
-        "aed2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["aed"]),4) ,
-        "Qar2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["Qar"]),4) ,
-        "jod2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["jod"]),4) ,
-        "bhd2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["bhd"]),4) ,
-        "omr2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["omr"]),4) ,
-        "gbp2egp" : round((data["blackMarketAverage"]["average_buy"] / data["bankrate"]["gbp"]),4) ,
-        "Rub2egp" : round((data["blackMarketAverage"]["average_buy"] / bankrate_instance["Rub"]),4) ,
+        "eur2egp" : round((BM_Price / data["bankrate"]["eur"]),4) ,
+        "sar2egp" : round((BM_Price / data["bankrate"]["sar"]),4) ,
+        "kwd2egp" : round((BM_Price / data["bankrate"]["kwd"]),4) ,
+        "aed2egp" : round((BM_Price / data["bankrate"]["aed"]),4) ,
+        "Qar2egp" : round((BM_Price / data["bankrate"]["Qar"]),4) ,
+        "jod2egp" : round((BM_Price / data["bankrate"]["jod"]),4) ,
+        "bhd2egp" : round((BM_Price / data["bankrate"]["bhd"]),4) ,
+        "omr2egp" : round((BM_Price / data["bankrate"]["omr"]),4) ,
+        "gbp2egp" : round((BM_Price / data["bankrate"]["gbp"]),4) ,
+        "Rub2egp" : round((BM_Price / bankrate_instance["Rub"]),4) ,
     }
     save_instance(blackmarket2, blackmarket2_instance)
     # Create and save arbitrage2 object
