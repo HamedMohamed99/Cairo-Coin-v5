@@ -112,67 +112,65 @@ def index(request):
 
 @api_view(['GET'])
 def history(request):
-    indicator = request.GET.get("Indicator")
-    unit = request.GET.get("Unit")
+    indicator = request.GET.get("Indicator").lower()
+    unit = request.GET.get("Unit").lower()
     period = request.GET.get("Period")
 
-    unit_mapping = {'Hour': 'hours', 'Day': 'days', 'Month': 'months'}
+    unit_mapping = {'hour': 'hours', 'day': 'days', 'month': 'months'}
 
     field_mapping = {
-        'Binance': 'bi_buy',
-        'BlackMarket': 'bm_buy',
-        'BankRate': 'br_usd2egp',
-        'CIB': 'cib_comi2cbkd',
-        'Gold24': 'gold_24',
-        'Gold21': 'gold_21',
-        'GoldDollar': 'gold_dollar',
-        'GoldGlobal': 'gold_usd'
+        'binance': 'bi_buy',
+        'blackmarket': 'bm_buy',
+        'bankrate': 'br_usd2egp',
+        'cib': 'cib_comi2cbkd',
+        'gold24': 'gold_24',
+        'gold21': 'gold_21',
+        'golddollar': 'gold_dollar',
+        'goldglobal': 'gold_usd'
     }
 
     field = field_mapping.get(indicator)
+    error= {
+        "status": "error",
+        "message": "Error processing the request 400"
+        }
 
     if not field:
-        return JsonResponse({'error': 'Invalid indicator'}, status=400)
+        error["data"] = 'Invalid indicator'
+        return JsonResponse(error, status=400)
 
     if unit not in unit_mapping:
-        return JsonResponse({'error': 'Invalid unit'}, status=400)
+        error["data"] = 'Invalid unit'
+        return JsonResponse(error, status=400)
     
-    model = history_hour if unit == "Hour" else history_day
+    if not period.isdigit() or int(period) <= 0:
+        error["data"] = 'Invalid Period'
+        return JsonResponse(error, status=400)
     
-    time = datetime.now(timezone.utc) - relativedelta(**{unit_mapping[unit]: int(period)})
-
-    first = model.objects.values('time').first()
-    last = model.objects.values('time').last()
-
-    # Check if first and last are not None before proceeding
-    if first and last:
-        time_difference = last['time'] - first['time']
-
-        if unit == "Hour":
-            # Convert seconds to hours
-            limit = time_difference.total_seconds() / 3600 + 1
-        elif unit == "Day":
-            # Convert seconds to days
-            limit = time_difference.total_seconds() / (3600 * 24) + 1
-        elif unit == "Month":
-            # Calculate the difference in months
-            limit = time_difference.total_seconds() / (3600 * 24 * 30) + 1
-
-        # Now 'limit' represents the time difference in the selected unit
-    else:
-        # Handle the case where first or last is None
-        limit = 0
-
     response = {
         "status": "success",
         "message": "Request successful",
+        "indicator": indicator,
     }
+    
+    if unit == "hour":
+        model = history_hour
+        response["Unit"] = "Hour"
+        response["UnitLimit"] = 48
+        if int(period) > 48 :
+            period = 48
 
-    response["UnitLimit"] = int(limit)
+    else:
+        model = history_day
+        response["Unit"] = "Day"
+        response["UnitLimit"] = model.objects.count()
+    
+    
+    time = datetime.now(timezone.utc) - relativedelta(**{unit_mapping[unit]: int(period)})
 
     dic = model.objects.filter(time__gte=time).values('time', field).order_by('-time')
 
-    response["data"] = [{'Time': item['time'], 'Value': item[field]} for item in dic]
+    response["data"] = [{'Time': (item['time'] + timedelta(hours=2)).replace(minute=0, second=0, microsecond=0), 'Value': item[field]} for item in dic]
    
     return JsonResponse(response, safe=False)
 

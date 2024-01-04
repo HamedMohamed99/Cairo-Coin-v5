@@ -20,7 +20,6 @@ def ccr(model, column,current):
         average = sum(data) / len(data) if len(data) > 0 else 0
 
         rate = (current - average)*100/average
-        print(rate)
         return rate
     
     else:
